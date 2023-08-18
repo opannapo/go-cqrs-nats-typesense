@@ -1,6 +1,7 @@
 package bootstrap
 
 import (
+	"fmt"
 	"gcnt/config"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
@@ -43,6 +44,11 @@ func InitHttpServer() {
 	app.Use(cors.New())
 	app.Use(recover.New())
 	if err := godotenv.Load(); err != nil {
-		log.Fatal("Error loading .env file")
+		log.Panicf("Error loading .env file : %v", err)
+	}
+
+	err := app.Listen(fmt.Sprintf(":%d", config.Instance.CommandServicePort))
+	if err != nil {
+		log.Panicf("Error starting server : %v", err)
 	}
 }
