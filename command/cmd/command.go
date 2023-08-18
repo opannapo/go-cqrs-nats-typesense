@@ -1,4 +1,4 @@
-package bootstrap
+package cmd
 
 import (
 	"fmt"
@@ -11,6 +11,10 @@ import (
 	"log"
 )
 
+func init() {
+	cmd.AddCommand(commandServiceCmd)
+}
+
 var commandServiceCmd = &cobra.Command{
 	Use:   "command",
 	Short: "Command Service",
@@ -19,10 +23,6 @@ var commandServiceCmd = &cobra.Command{
 		InitConfig()
 		InitHttpServer()
 	},
-}
-
-func init() {
-	cmd.AddCommand(commandServiceCmd)
 }
 
 func InitConfig() {

@@ -1,4 +1,4 @@
-package bootstrap
+package cmd
 
 import (
 	"fmt"
@@ -10,8 +10,7 @@ var cmd = &cobra.Command{
 	Use:   "app",
 	Short: "App GCNT",
 	Long:  `Application Golang - CQRS - N.A.T.S - TypeSense`,
-	Run: func(cmd *cobra.Command, args []string) {
-	},
+	Run:   func(cmd *cobra.Command, args []string) {},
 }
 
 func ExecuteCmd() {

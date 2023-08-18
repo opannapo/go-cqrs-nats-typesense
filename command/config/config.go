@@ -18,11 +18,11 @@ type appConfig struct {
 	AppMode string `mapstructure:"APP_MODE" validate:"required"`
 
 	//storage
-	PgsqlHost     string `mapstructure:"PGSQL_HOST" validate:"required"`
-	PgsqlPort     int    `mapstructure:"PGSQL_PORT" validate:"required"`
-	PgsqlName     string `mapstructure:"PGSQL_NAME" validate:"required"`
-	PgsqlUsername string `mapstructure:"PGSQL_USERNAME" validate:"required"`
-	PgsqlPassword string `mapstructure:"PGSQL_PASSWORD" validate:"required"`
+	MySqlHost     string `mapstructure:"MYSQL_HOST" validate:"required"`
+	MySqlPort     int    `mapstructure:"MYSQL_PORT" validate:"required"`
+	MySqlDb       string `mapstructure:"MYSQL_DB" validate:"required"`
+	MySqlUsername string `mapstructure:"MYSQL_USERNAME" validate:"required"`
+	MySqlPassword string `mapstructure:"MYSQL_PASSWORD" validate:"required"`
 	RedisHost     string `mapstructure:"REDIS_HOST" validate:"required"`
 	RedisPort     int    `mapstructure:"REDIS_PORT" validate:"required"`
 	RedisPassword string `mapstructure:"REDIS_PASSWORD"`
@@ -49,11 +49,11 @@ func InitConfigInstance() (err error) {
 	viper.Set(getOsEnv("APP_MODE"))
 
 	//storage
-	viper.Set(getOsEnv("PGSQL_HOST"))
-	viper.Set(getOsEnv("PGSQL_PORT"))
-	viper.Set(getOsEnv("PGSQL_NAME"))
-	viper.Set(getOsEnv("PGSQL_USERNAME"))
-	viper.Set(getOsEnv("PGSQL_PASSWORD"))
+	viper.Set(getOsEnv("MYSQL_HOST"))
+	viper.Set(getOsEnv("MYSQL_PORT"))
+	viper.Set(getOsEnv("MYSQL_DB"))
+	viper.Set(getOsEnv("MYSQL_USERNAME"))
+	viper.Set(getOsEnv("MYSQL_PASSWORD"))
 	viper.Set(getOsEnv("REDIS_HOST"))
 	viper.Set(getOsEnv("REDIS_PORT"))
 	viper.Set(getOsEnv("REDIS_PASSWORD"))
