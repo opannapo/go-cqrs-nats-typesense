@@ -82,7 +82,7 @@ func getMigrateSource() migrate.FileMigrationSource {
 
 func doMigrate(mSource migrate.FileMigrationSource, dbDialect string, direction migrate.MigrationDirection) (err error) {
 	db := &repository.Db{}
-	err = db.InitDatabase()
+	err = db.InitDatabase("mysql")
 	sqlDB, err := db.Mysql.DB()
 	if err != nil {
 		log.Fatal().Err(err).Caller().Send()

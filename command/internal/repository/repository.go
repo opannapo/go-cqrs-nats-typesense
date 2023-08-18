@@ -15,20 +15,24 @@ type Db struct {
 	Redis *redis.Pool
 }
 
-func (d *Db) InitDatabase() (err error) {
+func (d *Db) InitDatabase(dbType string) (err error) {
 	log.Info().Caller().Msg("InitDatabase")
 
-	//mysql
-	_mysql, err := d.mysqlClient()
-	if err != nil {
-		log.Err(err).Send()
-		return
+	switch dbType {
+	case "mysql":
+		//mysql
+		_mysql, err := d.mysqlClient()
+		if err != nil {
+			log.Err(err).Send()
+			return err
+		}
+		d.Mysql = _mysql
+	case "redis":
+		//redis
+		_redis := d.redisClient()
+		d.Redis = _redis
+	default:
 	}
-	d.Mysql = _mysql
-
-	//redis
-	_redis := d.redisClient()
-	d.Redis = _redis
 
 	return
 }
