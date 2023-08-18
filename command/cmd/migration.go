@@ -15,6 +15,7 @@ func init() {
 	cmd.AddCommand(migrateNewCmd)
 	cmd.AddCommand(migrateUpCmd)
 	cmd.AddCommand(migrateDownCmd)
+	InitConfig()
 }
 
 var migrateNewCmd = &cobra.Command{
@@ -80,22 +81,23 @@ func getMigrateSource() migrate.FileMigrationSource {
 	return source
 }
 
-func doMigrate(mSource migrate.FileMigrationSource, dbDialect string, direction migrate.MigrationDirection) error {
+func doMigrate(mSource migrate.FileMigrationSource, dbDialect string, direction migrate.MigrationDirection) (err error) {
 	db := &repository.Db{}
-	err := db.InitDatabase()
+	err = db.InitDatabase()
 	sqlDB, err := db.Mysql.DB()
 	if err != nil {
-		panic(err)
+		log.Fatal().Err(err).Caller().Send()
+		return
 	}
 	defer sqlDB.Close()
 
 	total, err := migrate.Exec(sqlDB, dbDialect, mSource, direction)
 	if err != nil {
 		log.Printf(fmt.Sprintf("Fail migrations | %v", err))
-		return err
+		return
 	}
 
 	log.Printf(fmt.Sprintf("Migrate Success, total migrated: %d", total))
 
-	return nil
+	return
 }

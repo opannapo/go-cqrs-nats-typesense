@@ -16,26 +16,22 @@ type Db struct {
 }
 
 func (d *Db) InitDatabase() (err error) {
-	log.Info().Msg("InitDatabase")
+	log.Info().Caller().Msg("InitDatabase")
 
 	_mysql, err := d.mysqlClient()
 	if err != nil {
 		log.Err(err).Send()
 		return
 	}
-	mysqlDb, err := _mysql.DB()
-	defer mysqlDb.Close()
-	if err != nil {
-		log.Err(err).Send()
-	}
+	d.Mysql = _mysql
 
-	_redis := d.redisClient()
+	/*_redis := d.redisClient()
 	cacheConn, err := _redis.Dial()
 	if err != nil {
 		log.Err(err).Send()
 		return
 	}
-	defer cacheConn.Close()
+	defer cacheConn.Close()*/
 
 	return
 }
