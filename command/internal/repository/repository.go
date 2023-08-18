@@ -18,6 +18,7 @@ type Db struct {
 func (d *Db) InitDatabase() (err error) {
 	log.Info().Caller().Msg("InitDatabase")
 
+	//mysql
 	_mysql, err := d.mysqlClient()
 	if err != nil {
 		log.Err(err).Send()
@@ -25,13 +26,9 @@ func (d *Db) InitDatabase() (err error) {
 	}
 	d.Mysql = _mysql
 
-	/*_redis := d.redisClient()
-	cacheConn, err := _redis.Dial()
-	if err != nil {
-		log.Err(err).Send()
-		return
-	}
-	defer cacheConn.Close()*/
+	//redis
+	_redis := d.redisClient()
+	d.Redis = _redis
 
 	return
 }
