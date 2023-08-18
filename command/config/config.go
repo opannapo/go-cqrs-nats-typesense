@@ -38,9 +38,10 @@ type appConfig struct {
 func InitConfigInstance() (err error) {
 	cfg := appConfig{}
 
+	err = godotenv.Load()
 	err = godotenv.Load("./command/.env")
 	if err != nil {
-		panic(err)
+		log.Info().Err(err).Caller().Send()
 	}
 
 	//app

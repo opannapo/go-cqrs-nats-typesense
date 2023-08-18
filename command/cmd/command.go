@@ -20,16 +20,8 @@ var commandServiceCmd = &cobra.Command{
 	Short: "Command Service",
 	Long:  `Command Service`,
 	Run: func(cmd *cobra.Command, args []string) {
-		InitConfig()
 		InitHttpServer()
 	},
-}
-
-func InitConfig() {
-	err := config.InitConfigInstance()
-	if err != nil {
-		log.Fatalf("Config error : %s", err)
-	}
 }
 
 func InitHttpServer() {

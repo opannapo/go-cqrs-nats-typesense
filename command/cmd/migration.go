@@ -15,7 +15,6 @@ func init() {
 	cmd.AddCommand(migrateNewCmd)
 	cmd.AddCommand(migrateUpCmd)
 	cmd.AddCommand(migrateDownCmd)
-	InitConfig()
 }
 
 var migrateNewCmd = &cobra.Command{
