@@ -7,10 +7,8 @@ import (
 	"github.com/gofiber/fiber/v2/middleware/recover"
 )
 
-type Handler struct {
-}
-
-func (h *Handler) SetupAPIRouter() (app *fiber.App) {
+func SetupAPIRouter() (app *fiber.App) {
+	ah := NewArticleHandler()
 	app = fiber.New(fiber.Config{
 		Prefork:       false,
 		CaseSensitive: false,
@@ -18,17 +16,12 @@ func (h *Handler) SetupAPIRouter() (app *fiber.App) {
 		ServerHeader:  config.Instance.AppName,
 		AppName:       config.Instance.AppName,
 	})
-
 	app.Use(cors.New())
 	app.Use(recover.New())
 
 	api := app.Group("/api/v1")
-
-	// User
 	userGroup := api.Group("/article")
-	userGroup.Post("/", func(ctx *fiber.Ctx) error {
-		return nil
-	})
+	userGroup.Post("/", ah.CreateArticle)
 
 	return
 }

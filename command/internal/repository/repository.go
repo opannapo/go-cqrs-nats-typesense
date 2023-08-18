@@ -45,11 +45,23 @@ func (d *Db) mysqlClient() (db *gorm.DB, err error) {
 		config.Instance.MySqlPort,
 		config.Instance.MySqlDb,
 	)
-	db, err = gorm.Open(mysql.New(mysql.Config{DSN: dns}), &gorm.Config{SkipDefaultTransaction: false, DisableAutomaticPing: false})
+	db, err = gorm.Open(mysql.New(mysql.Config{DSN: dns}), &gorm.Config{
+		SkipDefaultTransaction: false,
+		DisableAutomaticPing:   false,
+	})
 	if err != nil {
 		log.Err(err).Send()
 		return nil, err
 	}
+
+	sqlDB, err := db.DB()
+	if err != nil {
+		log.Err(err).Send()
+		return nil, err
+	}
+	sqlDB.SetMaxIdleConns(10)
+	sqlDB.SetMaxOpenConns(100)
+	sqlDB.SetConnMaxLifetime(time.Hour)
 
 	return db, err
 }
