@@ -1,8 +1,12 @@
 package handler
 
 import (
+	"encoding/json"
+	"gcnt/internal/schema"
 	"gcnt/internal/service"
+	"github.com/go-playground/validator/v10"
 	"github.com/gofiber/fiber/v2"
+	"github.com/rs/zerolog/log"
 	"net/http"
 )
 
@@ -17,10 +21,25 @@ func NewArticleHandler() ArticleHandlerImpl {
 type ArticleHandler struct{}
 
 func (a ArticleHandler) CreateArticle(c *fiber.Ctx) error {
-	s := service.ArticleServiceInstance
-	err := s.Create(c)
+	ctx := c.Context()
+	body := c.Body()
+
+	payload := &schema.CreateRequest{}
+	if err := json.Unmarshal(body, payload); err != nil {
+		log.Err(err).Caller()
+		return ResponseError(c, http.StatusBadRequest, "1", err.Error())
+	}
+
+	var validate = validator.New()
+	err := validate.Struct(payload)
 	if err != nil {
-		return ResponseError(c, http.StatusInternalServerError, "1", err.Error())
+		log.Print(err)
+		return ResponseError(c, http.StatusBadRequest, "2", err.Error())
+	}
+
+	err = service.ArticleServiceInstance.Create(ctx)
+	if err != nil {
+		return ResponseError(c, http.StatusInternalServerError, "2", err.Error())
 	}
 
 	return ResponseOk(c, "")

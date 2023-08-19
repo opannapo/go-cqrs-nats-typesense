@@ -1,9 +1,9 @@
 package service
 
 import (
+	"context"
 	"gcnt/internal/model"
 	"gcnt/internal/repository"
-	"github.com/gofiber/fiber/v2"
 	"github.com/rs/zerolog/log"
 	"time"
 )
@@ -17,13 +17,13 @@ func InitArticleServiceInstance() {
 }
 
 type IArticleService interface {
-	Create(c *fiber.Ctx) (err error)
+	Create(ctx context.Context) (err error)
 }
 
 type articleService struct {
 }
 
-func (a *articleService) Create(c *fiber.Ctx) (err error) {
+func (a *articleService) Create(ctx context.Context) (err error) {
 	newArt := model.Article{
 		Id:      0,
 		Author:  "",
@@ -33,7 +33,7 @@ func (a *articleService) Create(c *fiber.Ctx) (err error) {
 	}
 
 	r := repository.ArticleRepositoryInstance
-	err = r.Create(&newArt, repository.DbInstance.Mysql)
+	err = r.Create(ctx, &newArt, repository.DbInstance.Mysql)
 	if err != nil {
 		log.Err(err).Caller()
 		return err
