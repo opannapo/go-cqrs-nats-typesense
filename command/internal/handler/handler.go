@@ -1,18 +1,27 @@
 package handler
 
-import "github.com/gofiber/fiber/v2"
+import (
+	"github.com/gofiber/fiber/v2"
+)
 
-type ArticleHandlerImpl interface {
-	CreateArticle(c *fiber.Ctx) (err error)
+func ResponseError(c *fiber.Ctx, httpStatus int, internalErrCode, errMsg string) (err error) {
+	resErr := struct {
+		Code    string `json:"code"`
+		Message string `json:"message"`
+	}{
+		Code:    internalErrCode,
+		Message: errMsg,
+	}
+	return c.Status(httpStatus).JSON(&resErr)
 }
 
-func NewArticleHandler() ArticleHandlerImpl {
-	return ArticleHandler{}
-}
-
-type ArticleHandler struct{}
-
-func (a ArticleHandler) CreateArticle(c *fiber.Ctx) (err error) {
-	//TODO implement me
-	panic("implement me")
+func ResponseOk(c *fiber.Ctx, data interface{}) (err error) {
+	res := struct {
+		Code string      `json:"code"`
+		Data interface{} `json:"data"`
+	}{
+		Code: "0",
+		Data: data,
+	}
+	return c.Status(200).JSON(&res)
 }

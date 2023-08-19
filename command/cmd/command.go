@@ -5,6 +5,7 @@ import (
 	"gcnt/config"
 	"gcnt/internal/handler"
 	"gcnt/internal/repository"
+	"gcnt/internal/service"
 	"github.com/rs/zerolog/log"
 	"github.com/spf13/cobra"
 )
@@ -18,14 +19,30 @@ var commandServiceCmd = &cobra.Command{
 	Short: "Command Service",
 	Long:  `Command Service`,
 	Run: func(cmd *cobra.Command, args []string) {
-		InitDatabase()
-		InitHttpServer()
+		BootStrap()
 	},
 }
 
-func InitHttpServer() {
+func BootStrap() {
+	//Init Service
+	service.InitArticleServiceInstance()
+
+	//Init Repo
+	repository.InitArticleRepositoryInstance()
+
+	//Init Database
+	db := &repository.Db{}
+	err := db.InitDatabaseInstance("mysql")
+	sqlDB, err := db.Mysql.DB()
+	if err != nil {
+		log.Fatal().Err(err).Caller().Send()
+		return
+	}
+	defer sqlDB.Close()
+
+	//Init & Start HTTP server
 	app := handler.SetupAPIRouter()
-	err := app.Listen(fmt.Sprintf(":%d", config.Instance.CommandServicePort))
+	err = app.Listen(fmt.Sprintf(":%d", config.Instance.CommandServicePort))
 	if err != nil {
 		log.Panic().Caller().Err(err)
 	}
@@ -33,7 +50,7 @@ func InitHttpServer() {
 
 func InitDatabase() {
 	db := &repository.Db{}
-	err := db.InitDatabase("mysql")
+	err := db.InitDatabaseInstance("mysql")
 	sqlDB, err := db.Mysql.DB()
 	if err != nil {
 		log.Fatal().Err(err).Caller().Send()

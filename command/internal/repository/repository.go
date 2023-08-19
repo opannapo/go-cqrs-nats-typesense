@@ -10,13 +10,15 @@ import (
 	"time"
 )
 
+var DbInstance *Db
+
 type Db struct {
 	Mysql *gorm.DB
 	Redis *redis.Pool
 }
 
-func (d *Db) InitDatabase(dbType string) (err error) {
-	log.Info().Caller().Msg("InitDatabase")
+func (d *Db) InitDatabaseInstance(dbType string) (err error) {
+	log.Info().Caller().Msg("InitDatabaseInstance")
 
 	switch dbType {
 	case "mysql":
@@ -34,6 +36,7 @@ func (d *Db) InitDatabase(dbType string) (err error) {
 	default:
 	}
 
+	DbInstance = d
 	return
 }
 
