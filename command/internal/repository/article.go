@@ -23,7 +23,7 @@ type IArticleRepository interface {
 type ArticleRepositoryImpl struct {
 }
 
-func (a ArticleRepositoryImpl) Create(ctx context.Context, data *model.Article, db *gorm.DB) (err error) {
+func (a ArticleRepositoryImpl) Create(ctx context.Context, data *model.Article, db *gorm.DB) (article model.Article, err error) {
 	tx := db.Debug().Create(data)
 	if tx.Error != nil {
 		log.Err(err).Send()
@@ -37,5 +37,6 @@ func (a ArticleRepositoryImpl) Create(ctx context.Context, data *model.Article, 
 		return
 	}
 
+	article = *data
 	return
 }

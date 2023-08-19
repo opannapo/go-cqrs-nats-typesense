@@ -4,6 +4,7 @@ import (
 	"context"
 	"gcnt/internal/model"
 	"gcnt/internal/repository"
+	"gcnt/internal/schema"
 	"github.com/rs/zerolog/log"
 	"time"
 )
@@ -17,27 +18,29 @@ func InitArticleServiceInstance() {
 }
 
 type IArticleService interface {
-	Create(ctx context.Context) (err error)
+	Create(req schema.CreateRequest, ctx context.Context) (res schema.CreateResponse, err error)
 }
 
 type articleService struct {
 }
 
-func (a *articleService) Create(ctx context.Context) (err error) {
+func (a *articleService) Create(req schema.CreateRequest, ctx context.Context) (res schema.CreateResponse, err error) {
 	newArt := model.Article{
-		Id:      0,
-		Author:  "",
-		Title:   "",
-		Body:    "",
+		Author:  req.Author,
+		Title:   req.Title,
+		Body:    req.Body,
 		Created: time.Now(),
 	}
 
-	r := repository.ArticleRepositoryInstance
-	err = r.Create(ctx, &newArt, repository.DbInstance.Mysql)
+	article, err := repository.ArticleRepositoryInstance.Create(ctx, &newArt, repository.DbInstance.Mysql)
 	if err != nil {
 		log.Err(err).Caller()
-		return err
+		return
 	}
 
-	return
+	res = schema.CreateResponse{
+		ID:    article.Id,
+		Title: article.Title,
+	}
+	return res, err
 }

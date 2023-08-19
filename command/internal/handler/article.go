@@ -37,10 +37,10 @@ func (a ArticleHandler) CreateArticle(c *fiber.Ctx) error {
 		return ResponseError(c, http.StatusBadRequest, "2", err.Error())
 	}
 
-	err = service.ArticleServiceInstance.Create(ctx)
+	res, err := service.ArticleServiceInstance.Create(*payload, ctx)
 	if err != nil {
 		return ResponseError(c, http.StatusInternalServerError, "2", err.Error())
 	}
 
-	return ResponseOk(c, "")
+	return ResponseOk(c, res)
 }
