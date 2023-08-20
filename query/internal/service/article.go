@@ -45,7 +45,14 @@ func (a *articleService) Search(ctx context.Context, query, author string) (res 
 		return schema.GetResponse{}, err
 	}
 
-	res = search
+	resHits := search.Hits
+	var tmpResMapping []*map[string]interface{}
+
+	for _, hit := range *resHits {
+		tmpResMapping = append(tmpResMapping, hit.Document)
+	}
+
+	res = tmpResMapping
 	log.Info().Msgf("getby id retrieve : %+v", res)
 	return
 }
