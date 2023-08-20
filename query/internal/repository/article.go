@@ -2,9 +2,11 @@ package repository
 
 import (
 	"context"
+	"fmt"
 	"gcnt/internal/schema"
 	"github.com/rs/zerolog/log"
 	"github.com/typesense/typesense-go/typesense/api"
+	"github.com/typesense/typesense-go/typesense/api/pointer"
 )
 
 var ArticleRepositoryInstance IArticleRepository
@@ -42,6 +44,21 @@ func (a articleRepositoryImpl) Upsert(ctx context.Context, article schema.Messag
 }
 
 func (a articleRepositoryImpl) Search(ctx context.Context, query, author string) (searchResult *api.SearchResult, err error) {
-	//TODO implement me
-	panic("implement me")
+	client := DbInstance.TypeSense
+
+	sort := "created:desc"
+	searchParameters := &api.SearchCollectionParams{
+		Q:        query,
+		QueryBy:  "title, body",
+		FilterBy: pointer.String(fmt.Sprintf("author:%s", author)),
+		SortBy:   &sort,
+	}
+
+	searchResult, err = client.Collection("articles").Documents().Search(searchParameters)
+	if err != nil {
+		log.Err(err).Caller().Send()
+		return
+	}
+
+	return
 }

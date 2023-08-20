@@ -2,12 +2,9 @@ package service
 
 import (
 	"context"
-	"fmt"
 	"gcnt/internal/repository"
 	"gcnt/internal/schema"
 	"github.com/rs/zerolog/log"
-	"github.com/typesense/typesense-go/typesense/api"
-	"github.com/typesense/typesense-go/typesense/api/pointer"
 	"strconv"
 )
 
@@ -29,23 +26,13 @@ type articleService struct {
 }
 
 func (a *articleService) Search(ctx context.Context, query, author string) (res interface{}, err error) {
-	client := repository.DbInstance.TypeSense
-
-	sort := "created:desc"
-	searchParameters := &api.SearchCollectionParams{
-		Q:        query,
-		QueryBy:  "title, body",
-		FilterBy: pointer.String(fmt.Sprintf("author:%s", author)),
-		SortBy:   &sort,
-	}
-
-	search, err := client.Collection("articles").Documents().Search(searchParameters)
+	searchResult, err := repository.ArticleRepositoryInstance.Search(ctx, query, author)
 	if err != nil {
-		log.Err(err).Caller().Send()
-		return schema.GetResponse{}, err
+		log.Err(err).Caller()
+		return
 	}
 
-	resHits := search.Hits
+	resHits := searchResult.Hits
 	var tmpResMapping []*map[string]interface{}
 
 	for _, hit := range *resHits {
@@ -53,7 +40,7 @@ func (a *articleService) Search(ctx context.Context, query, author string) (res 
 	}
 
 	res = tmpResMapping
-	log.Info().Msgf("getby id retrieve : %+v", res)
+	log.Info().Msgf("search searchResult : %+v", res)
 	return
 }
 
