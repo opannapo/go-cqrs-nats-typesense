@@ -2,11 +2,8 @@ version: "3.5"
 services:
   nats:
     image: nats
+    restart: always
     ports:
-      - "8222:8222"
-    command: "--cluster_name NATS --cluster nats://0.0.0.0:6222 --http_port 8222 "
-    networks: [ "nats" ]
-
-networks:
-  nats:
-    name: nats
+      - '4222:4222'
+    expose:
+      - '4222'

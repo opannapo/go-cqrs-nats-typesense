@@ -6,6 +6,8 @@ import (
 	"gcnt/internal/handler"
 	"gcnt/internal/repository"
 	"gcnt/internal/service"
+	"gcnt/internal/stream"
+	"gcnt/internal/stream/publisher"
 	"github.com/rs/zerolog/log"
 	"github.com/spf13/cobra"
 )
@@ -30,9 +32,19 @@ func BootStrap() {
 	//Init Repo
 	repository.InitArticleRepositoryInstance()
 
+	//Init message broker
+	err := stream.InitMessageBrokerInstance()
+	if err != nil {
+		log.Fatal().Err(err).Caller().Send()
+		return
+	}
+
+	//Init publisher
+	publisher.InitNatsPublisherInstance()
+
 	//Init Database
 	db := &repository.Db{}
-	err := db.InitDatabaseInstance("mysql")
+	err = db.InitDatabaseInstance("mysql")
 	sqlDB, err := db.Mysql.DB()
 	if err != nil {
 		log.Fatal().Err(err).Caller().Send()
@@ -46,15 +58,4 @@ func BootStrap() {
 	if err != nil {
 		log.Panic().Caller().Err(err)
 	}
-}
-
-func InitDatabase() {
-	db := &repository.Db{}
-	err := db.InitDatabaseInstance("mysql")
-	sqlDB, err := db.Mysql.DB()
-	if err != nil {
-		log.Fatal().Err(err).Caller().Send()
-		return
-	}
-	defer sqlDB.Close()
 }
