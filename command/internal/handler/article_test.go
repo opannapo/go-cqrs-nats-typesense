@@ -51,6 +51,23 @@ func (h *HandlerTestSuite) TestCreateArticle() {
 				assert.Equal(h.T(), 200, actualRes.StatusCode)
 			},
 		},
+		{
+			caseName: "Err Invalid JSON Payload",
+			json: `{
+					"author": "opannapo"
+					"title": "Motor KLX",
+					"body": "Ini adalah artikel tentang kendaraan roda dua motor Kawasaki KLX"
+				}`,
+			expectedLogic: func(fctx *fiber.Ctx, c testCase) {},
+			expectedResponse: func(actualRes *http.Response) {
+				assert.Equal(h.T(), 400, actualRes.StatusCode)
+
+				//compare response
+				res := h.parseResponseJson(actualRes)
+				assert.Equal(h.T(), "1", res["code"])
+				assert.Contains(h.T(), res["message"], "invalid character")
+			},
+		},
 	}
 
 	articleHandler := article_handler.NewArticleHandler()

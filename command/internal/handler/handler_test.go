@@ -32,7 +32,7 @@ func (h *HandlerTestSuite) SetupSuite() {
 	mockCtrl := gomock.NewController(h.T())
 	defer mockCtrl.Finish()
 
-	//init config
+	//config
 	config.Instance = &config.AppConfig{
 		AppName:            "Command Test",
 		AppEnv:             "test",
@@ -52,11 +52,11 @@ func (h *HandlerTestSuite) SetupSuite() {
 		QueryServicePort:   0,
 	}
 
-	//Repo
+	//repo
 	h.mockRepository = repository_mock.NewMockIArticleRepository(mockCtrl)
 	repository.ArticleRepositoryInstance = h.mockRepository
 
-	//service client
+	//service
 	h.mockService = service_mock.NewMockIArticleService(mockCtrl)
 	service.ArticleServiceInstance = h.mockService
 
