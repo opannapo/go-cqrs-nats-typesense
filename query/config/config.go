@@ -18,9 +18,11 @@ type appConfig struct {
 	AppMode string `mapstructure:"APP_MODE" validate:"required"`
 
 	//storage
-	RedisHost     string `mapstructure:"REDIS_HOST" validate:"required"`
-	RedisPort     int    `mapstructure:"REDIS_PORT" validate:"required"`
-	RedisPassword string `mapstructure:"REDIS_PASSWORD"`
+	RedisHost        string `mapstructure:"REDIS_HOST" validate:"required"`
+	RedisPort        int    `mapstructure:"REDIS_PORT" validate:"required"`
+	RedisPassword    string `mapstructure:"REDIS_PASSWORD"`
+	TypesenseAddress string `mapstructure:"TYPESENSE_ADDRESS"`
+	TypesenseKey     string `mapstructure:"TYPESENSE_KEY"`
 
 	//services
 	NatsAddress        string `mapstructure:"NATS_ADDRESS" validate:"required"`
@@ -48,6 +50,8 @@ func InitConfigInstance() (err error) {
 	viper.Set(getOsEnv("REDIS_HOST"))
 	viper.Set(getOsEnv("REDIS_PORT"))
 	viper.Set(getOsEnv("REDIS_PASSWORD"))
+	viper.Set(getOsEnv("TYPESENSE_ADDRESS"))
+	viper.Set(getOsEnv("TYPESENSE_KEY"))
 
 	//services
 	viper.Set(getOsEnv("NATS_ADDRESS"))

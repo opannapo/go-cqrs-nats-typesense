@@ -27,6 +27,10 @@ var queryServiceCmd = &cobra.Command{
 }
 
 func BootStrap() {
+	//Init Storage
+	db := &repository.Db{}
+	db.InitDatabaseInstance("typesense")
+
 	//Init Service
 	service.InitArticleServiceInstance()
 

@@ -5,27 +5,25 @@ import (
 	"gcnt/config"
 	"github.com/gomodule/redigo/redis"
 	"github.com/rs/zerolog/log"
+	"github.com/typesense/typesense-go/typesense"
 	"time"
 )
 
 var DbInstance *Db
 
 type Db struct {
-	Redis *redis.Pool
+	Redis     *redis.Pool
+	TypeSense *typesense.Client
 }
 
-func (d *Db) InitDatabaseInstance(dbType string) (err error) {
+func (d *Db) InitDatabaseInstance(dbType string) {
 	log.Info().Caller().Msg("InitDatabaseInstance")
 
 	switch dbType {
 	case "redis":
-		//redis
-		_redis := d.redisClient()
-		d.Redis = _redis
+		d.Redis = d.redisClient()
 	case "typesense":
-		//redis
-		_redis := d.redisClient()
-		d.Redis = _redis
+		d.TypeSense = d.typeSenseClient()
 	default:
 	}
 
@@ -59,4 +57,11 @@ func (d *Db) redisClient() *redis.Pool {
 			return nil
 		},
 	}
+}
+
+func (d *Db) typeSenseClient() *typesense.Client {
+	client := typesense.NewClient(
+		typesense.WithServer(config.Instance.TypesenseAddress),
+		typesense.WithAPIKey(config.Instance.TypesenseKey))
+	return client
 }
