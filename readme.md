@@ -27,6 +27,16 @@ Berikut ini tech stack yang digunakan dalam project:
 
 
 # Demo
+Demo applikasi Command dan Query.
+Skenario :
+- Command Service : Create Article (Via Postman)
+- Query Service : Consume message from (subject) article created, lalu lakukan insert data ke TypeSense.
+- Monitoring Dashboard TypeSense (https://bfritscher.github.io/typesense-dashboard/)
+- Get Article By ID (Via Postman)
+- Search Article (Filter author & query:title & body) (Via Postman)
+
+### Output:
+[Screencast from 21-08-23 01:00:41.webm](https://github.com/opannapo/go-cqrs-nats-typesense/assets/18698574/00e091f9-2429-48d1-92bb-5923b8be5b06)
 
 
 
