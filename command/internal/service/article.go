@@ -33,19 +33,18 @@ func (a *articleService) Create(req schema.CreateRequest, ctx context.Context) (
 		Created: time.Now(),
 	}
 
-	mysql := repository.DbInstance.Mysql
-	mysql.Begin()
-	article, err := repository.ArticleRepositoryInstance.Create(ctx, &newArt, mysql)
+	trx := repository.DbInstance.Mysql.Begin()
+	article, err := repository.ArticleRepositoryInstance.Create(ctx, &newArt, trx)
 	if err != nil {
 		log.Err(err).Caller()
-		mysql.Rollback()
+		trx.Rollback()
 		return
 	}
 
 	err = publisher.Nats.Publish("article.created", article)
 	if err != nil {
 		log.Err(err).Caller().Send()
-		mysql.Rollback()
+		trx.Rollback()
 		return
 	}
 
@@ -54,7 +53,7 @@ func (a *articleService) Create(req schema.CreateRequest, ctx context.Context) (
 		Title: article.Title,
 	}
 
-	mysql.Commit()
+	trx.Commit()
 
 	return res, err
 }

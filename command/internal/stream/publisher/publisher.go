@@ -16,11 +16,11 @@ type INatsPublisher interface {
 
 type natsPublisher struct{}
 
-func InitNatsPublisherInstance() INatsPublisher {
-	return &natsPublisher{}
+func InitNatsPublisherInstance() {
+	Nats = &natsPublisher{}
 }
 
-func (n natsPublisher) Publish(subject string, payload interface{}) (err error) {
+func (n *natsPublisher) Publish(subject string, payload interface{}) (err error) {
 	data, _ := json.Marshal(payload)
 
 	if stream.MessageBrokerInstance.Nats.IsConnected() {
@@ -38,6 +38,6 @@ func (n natsPublisher) Publish(subject string, payload interface{}) (err error) 
 	return
 }
 
-func (n natsPublisher) Request(subject string, payload []byte, structResult any) (err error) {
+func (n *natsPublisher) Request(subject string, payload []byte, structResult any) (err error) {
 	return
 }
