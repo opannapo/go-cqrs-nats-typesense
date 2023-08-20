@@ -15,6 +15,7 @@ Berikut ini tech stack yang digunakan dalam project:
     - Mysql (Database)
     - N.A.T.S (Message Broker)
     - GORM (Sql ORM)
+    - Database Migration Script
     - Etc...
 - Service Query :
     - Fiber (Http Framework)
