@@ -8,22 +8,22 @@ import (
 	"gorm.io/gorm"
 )
 
-var ArticleRepositoryInstance *ArticleRepositoryImpl
+var ArticleRepositoryInstance IArticleRepository
 
 func InitArticleRepositoryInstance() {
 	if ArticleRepositoryInstance == nil {
-		ArticleRepositoryInstance = &ArticleRepositoryImpl{}
+		ArticleRepositoryInstance = &articleRepository{}
 	}
 }
 
 type IArticleRepository interface {
-	Create(ctx context.Context, data *model.Article, db *gorm.DB) (err error)
+	Create(ctx context.Context, data *model.Article, db *gorm.DB) (article model.Article, err error)
 }
 
-type ArticleRepositoryImpl struct {
+type articleRepository struct {
 }
 
-func (a ArticleRepositoryImpl) Create(ctx context.Context, data *model.Article, db *gorm.DB) (article model.Article, err error) {
+func (a *articleRepository) Create(ctx context.Context, data *model.Article, db *gorm.DB) (article model.Article, err error) {
 	tx := db.Debug().Create(data)
 	if tx.Error != nil {
 		log.Err(err).Send()

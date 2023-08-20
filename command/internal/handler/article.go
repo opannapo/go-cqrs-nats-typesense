@@ -26,19 +26,20 @@ func (a ArticleHandler) CreateArticle(c *fiber.Ctx) error {
 
 	payload := &schema.CreateRequest{}
 	if err := json.Unmarshal(body, payload); err != nil {
-		log.Err(err).Caller()
+		log.Err(err).Caller().Send()
 		return ResponseError(c, http.StatusBadRequest, "1", err.Error())
 	}
 
 	var validate = validator.New()
 	err := validate.Struct(payload)
 	if err != nil {
-		log.Print(err)
+		log.Err(err).Caller().Send()
 		return ResponseError(c, http.StatusBadRequest, "2", err.Error())
 	}
 
 	res, err := service.ArticleServiceInstance.Create(*payload, ctx)
 	if err != nil {
+		log.Err(err).Caller().Send()
 		return ResponseError(c, http.StatusInternalServerError, "2", err.Error())
 	}
 
