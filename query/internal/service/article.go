@@ -58,18 +58,13 @@ func (a *articleService) Search(ctx context.Context, query, author string) (res 
 }
 
 func (a *articleService) GetByID(ctx context.Context, id string) (res interface{}, err error) {
-	client := repository.DbInstance.TypeSense
-
-	res, err = client.Collection("articles").Document(id).Retrieve()
-	if err != nil {
-		return schema.GetResponse{}, err
-	}
+	res, err = repository.ArticleRepositoryInstance.GetByID(ctx, id)
 	if err != nil {
 		log.Err(err).Caller()
 		return
 	}
 
-	log.Info().Msgf("getby id retrieve : %+v", res)
+	log.Info().Msgf("getby id result : %+v", res)
 	return
 }
 
@@ -99,8 +94,4 @@ func (a *articleService) Upsert(ctx context.Context, article schema.MessageConsu
 
 	log.Info().Msgf("upsert : %+v", upsert)
 	return
-}
-
-func (a *articleService) Get(reqFilter map[string]string, ctx context.Context) (res schema.GetResponse, err error) {
-	return res, err
 }
