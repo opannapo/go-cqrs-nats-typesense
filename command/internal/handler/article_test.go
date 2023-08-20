@@ -68,6 +68,23 @@ func (h *HandlerTestSuite) TestCreateArticle() {
 				assert.Contains(h.T(), res["message"], "invalid character")
 			},
 		},
+		{
+			caseName: "Err Empty Required Payload",
+			json: `{
+					"author": "",
+					"title": "Motor KLX",
+					"body": "Ini adalah artikel tentang kendaraan roda dua motor Kawasaki KLX"
+				}`,
+			expectedLogic: func(fctx *fiber.Ctx, c testCase) {},
+			expectedResponse: func(actualRes *http.Response) {
+				assert.Equal(h.T(), 400, actualRes.StatusCode)
+
+				//compare response
+				res := h.parseResponseJson(actualRes)
+				assert.Equal(h.T(), "2", res["code"])
+				assert.Contains(h.T(), res["message"], "Field validation for 'Author'")
+			},
+		},
 	}
 
 	articleHandler := article_handler.NewArticleHandler()
