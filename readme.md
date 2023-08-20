@@ -41,7 +41,7 @@ Skenario :
 
 
 
-## Installasi applikasi pihak ke tiga & Konfigurasi.
+# Installasi applikasi pihak ke tiga & Konfigurasi.
 Work directory : **_deployment_**
 1. Masuk ke lokasi docker file
 ```shell
