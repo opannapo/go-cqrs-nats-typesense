@@ -38,8 +38,8 @@ Skenario :
 - Command Service : Create Article (Via Postman)
 - Query Service : Consume message from (subject) article created, lalu lakukan insert data ke TypeSense.
 - Monitoring Dashboard TypeSense (https://bfritscher.github.io/typesense-dashboard/)
-- Get Article By ID (Via Postman)
-- Search Article (Filter author & query:title & body) (Via Postman)
+- Query Service : Get Article By ID (Via Postman)
+- Query Service : Search Article (Filter author & query:title & body) (Via Postman)
 
 ### Output:
 
