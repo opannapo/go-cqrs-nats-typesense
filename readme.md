@@ -124,7 +124,7 @@ Buat collection dengan schema :
 #
 
 # Menjalankan Applikasi Command
-Work directory : command
+Work directory : **_/command_**
 1. Masuk ke folder command
 ```shell
 cd command
@@ -154,7 +154,7 @@ go run main.go command
 
 #
 # Menjalankan Applikasi Query
-Work directory : query
+Work directory : **_/query_**
 1. Masuk ke folder query
 ```shell
 cd query
@@ -176,5 +176,10 @@ go run main.go query
  │ Prefork ....... Disabled  PID ............. 29127 │ 
  └───────────────────────────────────────────────────┘ 
 ```
+
+
+# Doc : Postman Collection
+work directory : **_/doc_**<br>
+Lakukan import file json ke postman untuk melanjutkan pengujian http request.
 
 

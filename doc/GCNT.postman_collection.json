@@ -1,0 +1,518 @@
+{
+	"info": {
+		"_postman_id": "358793b6-f5eb-4156-8015-813baf3bbecc",
+		"name": "GCNT",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Service Command : Create Article",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"author\": \"opannapo\",\n    \"title\": \"Motor CRF\",\n    \"body\": \"Ini adalah artikel tentang kendaraan roda dua motor CRF\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:1111/api/v1/article",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "1111",
+					"path": [
+						"api",
+						"v1",
+						"article"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Error Invalid Payload - Body",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"author\": \"opannapo\",\n    \"title\": \"Article 1\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:1111/api/v1/article",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "1111",
+							"path": [
+								"api",
+								"v1",
+								"article"
+							]
+						}
+					},
+					"status": "Bad Request",
+					"code": 400,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Server",
+							"value": "GCNT"
+						},
+						{
+							"key": "Date",
+							"value": "Sat, 19 Aug 2023 22:40:22 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "113"
+						},
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"code\": \"2\",\n    \"message\": \"Key: 'CreateRequest.Body' Error:Field validation for 'Body' failed on the 'required' tag\"\n}"
+				},
+				{
+					"name": "Error Invalid Request Json Body",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:1111/api/v1/article",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "1111",
+							"path": [
+								"api",
+								"v1",
+								"article"
+							]
+						}
+					},
+					"status": "Bad Request",
+					"code": 400,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Server",
+							"value": "GCNT"
+						},
+						{
+							"key": "Date",
+							"value": "Sat, 19 Aug 2023 22:41:22 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "53"
+						},
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"code\": \"1\",\n    \"message\": \"unexpected end of JSON input\"\n}"
+				},
+				{
+					"name": "Service Command : Success",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"author\": \"opannapo\",\n    \"title\": \"Article 2\",\n    \"body\": \"This is content\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:1111/api/v1/article",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "1111",
+							"path": [
+								"api",
+								"v1",
+								"article"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Server",
+							"value": "GCNT"
+						},
+						{
+							"key": "Date",
+							"value": "Sat, 19 Aug 2023 22:50:14 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "48"
+						},
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"code\": \"0\",\n    \"data\": {\n        \"id\": 6,\n        \"title\": \"Article 2\"\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "Service Query : Get By ID",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"author\": \"fatih\",\n    \"title\": \"Kawasaki KLX\",\n    \"body\": \"Yok kita terabasan pake KLX ges\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:2222/api/v1/article/30",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "2222",
+					"path": [
+						"api",
+						"v1",
+						"article",
+						"30"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Service Query : Get By ID - Success",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"author\": \"fatih\",\n    \"title\": \"Kawasaki KLX\",\n    \"body\": \"Yok kita terabasan pake KLX ges\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:2222/api/v1/article/25",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "2222",
+							"path": [
+								"api",
+								"v1",
+								"article",
+								"25"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Server",
+							"value": "GCNT-QUERY-SERVICE"
+						},
+						{
+							"key": "Date",
+							"value": "Sun, 20 Aug 2023 02:38:33 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "133"
+						},
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"code\": \"0\",\n    \"data\": {\n        \"author\": \"fatih\",\n        \"body\": \"Yok kita terabasan pake KLX ges\",\n        \"created\": 1692498196,\n        \"id\": \"25\",\n        \"title\": \"Kawasaki KLX\"\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "Service Query : Search",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"author\": \"fatih\",\n    \"title\": \"Kawasaki KLX\",\n    \"body\": \"Yok kita terabasan pake KLX ges\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:2222/api/v1/article?query=motor&author=opannapo",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "2222",
+					"path": [
+						"api",
+						"v1",
+						"article"
+					],
+					"query": [
+						{
+							"key": "query",
+							"value": "motor"
+						},
+						{
+							"key": "author",
+							"value": "opannapo"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Service Query : Get By ID - Success",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"author\": \"fatih\",\n    \"title\": \"Kawasaki KLX\",\n    \"body\": \"Yok kita terabasan pake KLX ges\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:2222/api/v1/article/25",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "2222",
+							"path": [
+								"api",
+								"v1",
+								"article",
+								"25"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Server",
+							"value": "GCNT-QUERY-SERVICE"
+						},
+						{
+							"key": "Date",
+							"value": "Sun, 20 Aug 2023 02:38:33 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "133"
+						},
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"code\": \"0\",\n    \"data\": {\n        \"author\": \"fatih\",\n        \"body\": \"Yok kita terabasan pake KLX ges\",\n        \"created\": 1692498196,\n        \"id\": \"25\",\n        \"title\": \"Kawasaki KLX\"\n    }\n}"
+				},
+				{
+					"name": "Service Query : Search - Success",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"author\": \"fatih\",\n    \"title\": \"Kawasaki KLX\",\n    \"body\": \"Yok kita terabasan pake KLX ges\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:2222/api/v1/article?query=sapi&author=fatih",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "2222",
+							"path": [
+								"api",
+								"v1",
+								"article"
+							],
+							"query": [
+								{
+									"key": "query",
+									"value": "sapi"
+								},
+								{
+									"key": "author",
+									"value": "fatih"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Server",
+							"value": "GCNT-QUERY-SERVICE"
+						},
+						{
+							"key": "Date",
+							"value": "Sun, 20 Aug 2023 16:18:00 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "275"
+						},
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"code\": \"0\",\n    \"data\": [\n        {\n            \"author\": \"fatih\",\n            \"body\": \"Ini adalah artikel tentang hewan ayam dan sapi\",\n            \"created\": 1692547728,\n            \"id\": \"29\",\n            \"title\": \"Hewan Ayam Dan Sapi\"\n        },\n        {\n            \"author\": \"fatih\",\n            \"body\": \"Ini adalah artikel tentang hewan sapi\",\n            \"created\": 1692546831,\n            \"id\": \"26\",\n            \"title\": \"Hewan Sapi\"\n        }\n    ]\n}"
+				}
+			]
+		}
+	]
+}
