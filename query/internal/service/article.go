@@ -5,7 +5,6 @@ import (
 	"gcnt/internal/repository"
 	"gcnt/internal/schema"
 	"github.com/rs/zerolog/log"
-	"strconv"
 )
 
 var ArticleServiceInstance IArticleService
@@ -56,24 +55,7 @@ func (a *articleService) GetByID(ctx context.Context, id string) (res interface{
 }
 
 func (a *articleService) Upsert(ctx context.Context, article schema.MessageConsume) (err error) {
-	client := repository.DbInstance.TypeSense
-
-	document :=
-		struct {
-			ID      string `json:"id" `
-			Author  string `json:"author" `
-			Title   string `json:"title" `
-			Body    string `json:"body" `
-			Created int64  `json:"created" `
-		}{
-			ID:      strconv.FormatInt(article.ID, 10),
-			Author:  article.Author,
-			Title:   article.Title,
-			Body:    article.Body,
-			Created: article.Created.Unix(),
-		}
-
-	upsert, err := client.Collection("articles").Documents().Upsert(document)
+	upsert, err := repository.ArticleRepositoryInstance.Upsert(ctx, article)
 	if err != nil {
 		log.Err(err).Caller()
 		return
