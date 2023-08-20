@@ -8,6 +8,7 @@ import (
 
 type ArticleHandlerImpl interface {
 	GetArticleByID(c *fiber.Ctx) error
+	Search(c *fiber.Ctx) error
 }
 
 func NewArticleHandler() ArticleHandlerImpl {
@@ -15,6 +16,20 @@ func NewArticleHandler() ArticleHandlerImpl {
 }
 
 type ArticleHandler struct{}
+
+func (a ArticleHandler) Search(c *fiber.Ctx) error {
+	ctx := c.Context()
+
+	qQuery := c.Query("query")
+	qAuthor := c.Query("author")
+
+	res, err := service.ArticleServiceInstance.Search(ctx, qQuery, qAuthor)
+	if err != nil {
+		return ResponseError(c, http.StatusInternalServerError, "2", err.Error())
+	}
+
+	return ResponseOk(c, res)
+}
 
 func (a ArticleHandler) GetArticleByID(c *fiber.Ctx) error {
 	ctx := c.Context()
