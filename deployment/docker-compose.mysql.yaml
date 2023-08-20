@@ -1,0 +1,14 @@
+version: '3.3'
+services:
+  db:
+    image: mysql:5.7
+    restart: always
+    environment:
+      MYSQL_DATABASE: 'article_db'
+      MYSQL_USER: 'opannapo'
+      MYSQL_PASSWORD: 'opannapo'
+      MYSQL_ROOT_PASSWORD: 'opannapo'
+    ports:
+      - '3306:3306'
+    expose:
+      - '3306'

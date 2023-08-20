@@ -41,19 +41,140 @@ Skenario :
 
 
 
-# Command Services
+## Installasi applikasi pihak ke tiga & Konfigurasi.
+Work directory : **_deployment_**
+1. Masuk ke lokasi docker file
+```shell
+cd deployment
+```
 
-### build docker images : mysql,nats
-**go to application directory :** ```cd command/deployment```
-```dockerfile
+2. build docker images : Mysql
+```shell
 sudo docker-compose -f 'docker-compose.mysql.yaml' up
 ```
 
+3. build docker images : NATS
+```shell
+sudo docker-compose -f 'docker-compose.nats.yaml' up
+```
 
-# Query Services
-build docker images : typesense
-**go to application directory :** cd ```query/deployment```
-```dockerfile
+4. build docker images : TypeSense
+```shell
 mkdir typesense-data
 sudo docker-compose -f 'docker-compose.typesense.yaml' up
 ```
+
+5. Konfigurasi TypeSense
+Setelah proses installasi typesense pada docker berhasil, lakukan langkah pembuatan collection.
+Anda dapat melakukan ini dengan mudah melalui link https://bfritscher.github.io/typesense-dashboard/#/
+Login dengan API KEY yang tertera di configurasi **.env** file.
+
+Buat collection dengan schema :
+```json
+{
+  "name": "articles",
+  "fields": [
+    {
+      "name": "author",
+      "type": "string",
+      "facet": false,
+      "optional": false,
+      "index": true,
+      "sort": false,
+      "infix": false,
+      "locale": ""
+    },
+    {
+      "name": "title",
+      "type": "string",
+      "facet": false,
+      "optional": false,
+      "index": true,
+      "sort": false,
+      "infix": false,
+      "locale": ""
+    },
+    {
+      "name": "body",
+      "type": "string",
+      "facet": false,
+      "optional": false,
+      "index": true,
+      "sort": false,
+      "infix": false,
+      "locale": ""
+    },
+    {
+      "name": "created",
+      "type": "int64",
+      "facet": false,
+      "optional": false,
+      "index": true,
+      "sort": true,
+      "infix": false,
+      "locale": ""
+    }
+  ],
+  "default_sorting_field": "",
+  "enable_nested_fields": false,
+  "symbols_to_index": [],
+  "token_separators": []
+}
+```
+#
+
+## Menjalankan Applikasi Command
+Work directory : command
+1. Masuk ke folder command
+```shell
+cd command
+```
+
+2. Execute script migration untuk pembuatan table _**article**_
+```shell
+go run main.go migrateup
+```
+
+3. Jalankan Applikasi Command Service
+```shell
+go run main.go command
+```
+4. Output : Akan tampil display seperti ini pada terminal.
+```shell
+ ┌───────────────────────────────────────────────────┐ 
+ │               GCNT-COMMAND-SERVICE                │ 
+ │                   Fiber v2.48.0                   │ 
+ │               http://127.0.0.1:1111               │ 
+ │       (bound on host 0.0.0.0 and port 1111)       │ 
+ │                                                   │ 
+ │ Handlers ............. 5  Processes ........... 1 │ 
+ │ Prefork ....... Disabled  PID ............. 28610 │ 
+ └───────────────────────────────────────────────────┘ 
+```
+
+#
+## Menjalankan Applikasi Query
+Work directory : query
+1. Masuk ke folder query
+```shell
+cd query
+```
+
+2. Jalankan Applikasi Command Service
+```shell
+go run main.go query
+```
+4. Output : Akan tampil display seperti ini pada terminal.
+```shell
+ ┌───────────────────────────────────────────────────┐ 
+ │                GCNT-QUERY-SERVICE                 │ 
+ │                   Fiber v2.48.0                   │ 
+ │               http://127.0.0.1:2222               │ 
+ │       (bound on host 0.0.0.0 and port 2222)       │ 
+ │                                                   │ 
+ │ Handlers ............. 8  Processes ........... 1 │ 
+ │ Prefork ....... Disabled  PID ............. 29127 │ 
+ └───────────────────────────────────────────────────┘ 
+```
+
+
