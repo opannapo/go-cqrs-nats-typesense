@@ -9,9 +9,9 @@ import (
 	"os"
 )
 
-var Instance *appConfig
+var Instance *AppConfig
 
-type appConfig struct {
+type AppConfig struct {
 	//app
 	AppName string `mapstructure:"APP_NAME" validate:"required"`
 	AppEnv  string `mapstructure:"APP_ENV" validate:"required"`
@@ -33,7 +33,7 @@ type appConfig struct {
 }
 
 func InitConfigInstance() (err error) {
-	cfg := appConfig{}
+	cfg := AppConfig{}
 
 	err = godotenv.Load()
 	err = godotenv.Load("./query/.env")

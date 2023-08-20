@@ -7,7 +7,7 @@ package handler_mock
 import (
 	reflect "reflect"
 
-	v2 "github.com/gofiber/fiber/v2"
+	fiber "github.com/gofiber/fiber/v2"
 	gomock "github.com/golang/mock/gomock"
 )
 
@@ -35,7 +35,7 @@ func (m *MockArticleHandlerImpl) EXPECT() *MockArticleHandlerImplMockRecorder {
 }
 
 // GetArticleByID mocks base method.
-func (m *MockArticleHandlerImpl) GetArticleByID(c *v2.Ctx) error {
+func (m *MockArticleHandlerImpl) GetArticleByID(c *fiber.Ctx) error {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetArticleByID", c)
 	ret0, _ := ret[0].(error)
@@ -49,7 +49,7 @@ func (mr *MockArticleHandlerImplMockRecorder) GetArticleByID(c interface{}) *gom
 }
 
 // Search mocks base method.
-func (m *MockArticleHandlerImpl) Search(c *v2.Ctx) error {
+func (m *MockArticleHandlerImpl) Search(c *fiber.Ctx) error {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Search", c)
 	ret0, _ := ret[0].(error)
