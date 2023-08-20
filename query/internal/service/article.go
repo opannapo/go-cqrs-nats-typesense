@@ -2,10 +2,10 @@ package service
 
 import (
 	"context"
-	"gcnt/internal/model"
 	"gcnt/internal/repository"
 	"gcnt/internal/schema"
 	"github.com/rs/zerolog/log"
+	"strconv"
 )
 
 var ArticleServiceInstance IArticleService
@@ -18,15 +18,31 @@ func InitArticleServiceInstance() {
 
 type IArticleService interface {
 	Get(reqFilter map[string]string, ctx context.Context) (res schema.GetResponse, err error)
-	Upsert(article model.Article, ctx context.Context) (err error)
+	Upsert(ctx context.Context, article schema.MessageConsume) (err error)
 }
 
 type articleService struct {
 }
 
-func (a *articleService) Upsert(article model.Article, ctx context.Context) (err error) {
+func (a *articleService) Upsert(ctx context.Context, article schema.MessageConsume) (err error) {
 	client := repository.DbInstance.TypeSense
-	upsert, err := client.Collection("articles").Documents().Upsert(article)
+
+	document :=
+		struct {
+			ID      string `json:"id" `
+			Author  string `json:"author" `
+			Title   string `json:"title" `
+			Body    string `json:"body" `
+			Created int64  `json:"created" `
+		}{
+			ID:      strconv.FormatInt(article.ID, 10),
+			Author:  article.Author,
+			Title:   article.Title,
+			Body:    article.Body,
+			Created: article.Created.Unix(),
+		}
+
+	upsert, err := client.Collection("articles").Documents().Upsert(document)
 	if err != nil {
 		log.Err(err).Caller()
 		return
@@ -37,6 +53,5 @@ func (a *articleService) Upsert(article model.Article, ctx context.Context) (err
 }
 
 func (a *articleService) Get(reqFilter map[string]string, ctx context.Context) (res schema.GetResponse, err error) {
-
 	return res, err
 }

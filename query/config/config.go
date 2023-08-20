@@ -36,7 +36,7 @@ func InitConfigInstance() (err error) {
 	cfg := appConfig{}
 
 	err = godotenv.Load()
-	err = godotenv.Load("./command/.env")
+	err = godotenv.Load("./query/.env")
 	if err != nil {
 		log.Info().Err(err).Caller().Send()
 	}
