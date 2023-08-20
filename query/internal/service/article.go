@@ -17,11 +17,27 @@ func InitArticleServiceInstance() {
 }
 
 type IArticleService interface {
-	Get(reqFilter map[string]string, ctx context.Context) (res schema.GetResponse, err error)
+	GetByID(ctx context.Context, id string) (res interface{}, err error)
 	Upsert(ctx context.Context, article schema.MessageConsume) (err error)
 }
 
 type articleService struct {
+}
+
+func (a *articleService) GetByID(ctx context.Context, id string) (res interface{}, err error) {
+	client := repository.DbInstance.TypeSense
+
+	res, err = client.Collection("articles").Document(id).Retrieve()
+	if err != nil {
+		return schema.GetResponse{}, err
+	}
+	if err != nil {
+		log.Err(err).Caller()
+		return
+	}
+
+	log.Info().Msgf("getby id retrieve : %+v", res)
+	return
 }
 
 func (a *articleService) Upsert(ctx context.Context, article schema.MessageConsume) (err error) {

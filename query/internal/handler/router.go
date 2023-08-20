@@ -25,8 +25,8 @@ func SetupAPIRouter() (app *fiber.App) {
 	}))
 
 	api := app.Group("/api/v1")
-	userGroup := api.Group("/article")
-	userGroup.Get("/", ah.GetArticle)
+	userGroup := api.Group("/article/:articleID")
+	userGroup.Get("/", ah.GetArticleByID)
 
 	return
 }
