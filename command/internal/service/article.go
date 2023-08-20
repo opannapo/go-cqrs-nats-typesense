@@ -5,6 +5,7 @@ import (
 	"gcnt/internal/model"
 	"gcnt/internal/repository"
 	"gcnt/internal/schema"
+	"gcnt/internal/stream/publisher"
 	"github.com/rs/zerolog/log"
 	"time"
 )
@@ -32,9 +33,19 @@ func (a *articleService) Create(req schema.CreateRequest, ctx context.Context) (
 		Created: time.Now(),
 	}
 
-	article, err := repository.ArticleRepositoryInstance.Create(ctx, &newArt, repository.DbInstance.Mysql)
+	mysql := repository.DbInstance.Mysql
+	mysql.Begin()
+	article, err := repository.ArticleRepositoryInstance.Create(ctx, &newArt, mysql)
 	if err != nil {
 		log.Err(err).Caller()
+		mysql.Rollback()
+		return
+	}
+
+	err = publisher.Nats.Publish("article.created", article)
+	if err != nil {
+		log.Err(err).Caller().Send()
+		mysql.Rollback()
 		return
 	}
 
@@ -42,5 +53,8 @@ func (a *articleService) Create(req schema.CreateRequest, ctx context.Context) (
 		ID:    article.Id,
 		Title: article.Title,
 	}
+
+	mysql.Commit()
+
 	return res, err
 }
