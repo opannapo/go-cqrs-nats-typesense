@@ -123,7 +123,7 @@ Buat collection dengan schema :
 ```
 #
 
-## Menjalankan Applikasi Command
+# Menjalankan Applikasi Command
 Work directory : command
 1. Masuk ke folder command
 ```shell
@@ -153,7 +153,7 @@ go run main.go command
 ```
 
 #
-## Menjalankan Applikasi Query
+# Menjalankan Applikasi Query
 Work directory : query
 1. Masuk ke folder query
 ```shell
